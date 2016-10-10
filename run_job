@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
-file=$1
+if [[ $# -eq 0 ]]; then
+  file="main.hs"
+else
+  file=$1
+fi
+
 compiled_file="${file%.*}"
+src_dir="./src"
 target_dir="./target"
+
+echo $file
 
 if [[ ! -e $target_dir ]]; then
   mkdir -p $target_dir
@@ -10,8 +18,8 @@ elif [[ ! -d $target_dir ]]; then
   echo "$target_dir already exists but is not a director" 1>&2
 fi
 
-ghc $file -o "$target_dir/$compiled_file"
+ghc "$src_dir/$file" -o "$target_dir/$compiled_file"
 
-rm "$compiled_file.o" "$compiled_file.hi"
+rm "$src_dir/$compiled_file.o" "$src_dir/$compiled_file.hi"
 
 "$target_dir/$compiled_file"
