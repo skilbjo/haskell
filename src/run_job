@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+file=$1
+compiled_file="${file%.*}"
+target_dir="./target"
+
+if [[ ! -e $target_dir ]]; then
+  mkdir -p $target_dir
+elif [[ ! -d $target_dir ]]; then
+  echo "$target_dir already exists but is not a director" 1>&2
+fi
+
+ghc $file -o "$target_dir/$compiled_file"
+
+rm "$compiled_file.o" "$compiled_file.hi"
+
+"$target_dir/$compiled_file"
